@@ -104,21 +104,25 @@
 }
 
 .whatsapp-navbar-btn {
-  background: var(--gradient-primary);
-  color: white;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  width: 46px;
+  height: 46px;
   display: flex;
+  padding: 0;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  backdrop-filter: blur(15px);
+  color: #25D366; /* WhatsApp brand color */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   transition: var(--transition);
-  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
 }
 
 .whatsapp-navbar-btn:hover {
-  transform: scale(1.1) rotate(10deg);
-  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.5);
+  background: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
 }
 
 .menu-toggle {
@@ -137,9 +141,6 @@
 }
 
 @media (max-width: 768px) {
-  .whatsapp-navbar-btn {
-    display: none !important;
-  }
   .navbar {
     padding: 14px 0 !important;
     height: 70px;
@@ -202,28 +203,6 @@
     display: flex !important;
     gap: 10px !important;
     z-index: 10001 !important;
-  }
-
-  .whatsapp-navbar-btn {
-    display: flex !important;
-    width: 46px !important;
-    height: 46px !important;
-    padding: 0 !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    border-radius: 12px !important;
-    backdrop-filter: blur(15px) !important;
-    color: #25D366 !important; /* WhatsApp color icon */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
-    transform: none !important; /* No hover lift on mobile */
-    transition: none !important; /* Instant response to taps */
-  }
-
-  .whatsapp-navbar-btn:hover {
-    transform: none !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
   }
 
   .whatsapp-navbar-btn span {

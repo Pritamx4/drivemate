@@ -56,7 +56,8 @@ export default function Footer() {
             <h4 onClick={() => toggleSection('quick')}>
               Quick Links 
               <span className="accordion-icon-wrap">
-                {openSection === 'quick' ? <Minus size={14} /> : <Plus size={14} />}
+                <Plus size={14} className="icon-plus" />
+                <Minus size={14} className="icon-minus" />
               </span>
             </h4>
             <div className="footer-section-content">
@@ -74,7 +75,8 @@ export default function Footer() {
             <h4 onClick={() => toggleSection('services')}>
               Our Services
               <span className="accordion-icon-wrap">
-                {openSection === 'services' ? <Minus size={14} /> : <Plus size={14} />}
+                <Plus size={14} className="icon-plus" />
+                <Minus size={14} className="icon-minus" />
               </span>
             </h4>
             <div className="footer-section-content">
@@ -91,7 +93,8 @@ export default function Footer() {
             <h4 onClick={() => toggleSection('contact')}>
               Contact Us
               <span className="accordion-icon-wrap">
-                {openSection === 'contact' ? <Minus size={14} /> : <Plus size={14} />}
+                <Plus size={14} className="icon-plus" />
+                <Minus size={14} className="icon-minus" />
               </span>
             </h4>
             <div className="footer-section-content">

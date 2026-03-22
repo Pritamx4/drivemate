@@ -47,8 +47,9 @@ export default function Browse() {
         <aside className={`sidebar card ${isMobileFilterOpen ? 'mobile-open' : ''}`}>
           <h3 className="sidebar-title" onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}>
             <span><SlidersHorizontal size={18} /> Filters</span>
-            <span className="mobile-only accordion-icon">
-              {isMobileFilterOpen ? <Minus size={18} /> : <Plus size={18} />}
+            <span className={`mobile-only accordion-icon ${isMobileFilterOpen ? 'open' : ''}`}>
+              <Plus size={18} className="icon-plus" />
+              <Minus size={18} className="icon-minus" />
             </span>
           </h3>
 

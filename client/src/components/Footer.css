@@ -178,7 +178,22 @@
 .accordion-icon-wrap {
   display: none;
   color: var(--primary);
+  position: relative;
+  width: 14px;
+  height: 14px;
+  align-items: center;
+  justify-content: center;
 }
+
+.icon-plus, .icon-minus {
+  position: absolute;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.icon-plus { opacity: 1; transform: rotate(0deg) scale(1); }
+.open .icon-plus { opacity: 0; transform: rotate(90deg) scale(0.5); }
+.icon-minus { opacity: 0; transform: rotate(-90deg) scale(0.5); }
+.open .icon-minus { opacity: 1; transform: rotate(0deg) scale(1); }
+
 
 @media (max-width: 992px) {
   .footer-grid {
@@ -235,12 +250,14 @@
   }
   .footer-section-content {
     max-height: 0;
+    opacity: 0;
     overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .footer-links.open .footer-section-content,
   .footer-contact.open .footer-section-content {
     max-height: 300px;
+    opacity: 1;
     padding-bottom: 20px;
   }
   .footer-links ul li {
