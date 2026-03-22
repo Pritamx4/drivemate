@@ -25,6 +25,7 @@ export default function AdminPanel() {
   const [bookingsLoading, setBookingsLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const showSuccess = (msg) => {
     setSuccessMsg(msg);
@@ -45,6 +46,36 @@ export default function AdminPanel() {
       console.error('Failed to fetch bookings:', err);
     } finally {
       setBookingsLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', file);
+    setUploading(true);
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/upload`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('dm_admin_token')}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setForm({ ...form, image: data.url });
+        setUploading(false);
+      } else {
+        alert(data.message || 'Upload failed');
+        setUploading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      setUploading(false);
+      alert('Upload failed');
     }
   };
 
@@ -358,9 +389,24 @@ export default function AdminPanel() {
                     onChange={e => setForm({ ...form, mileageLimit: e.target.value })} />
                 </div>
                 <div className="modal-field modal-full">
-                  <label>Image URL</label>
-                  <input placeholder="/cars/bmw.png or https://..." value={form.image}
-                    onChange={e => setForm({ ...form, image: e.target.value })} />
+                  <label>Car Image {uploading && '(Uploading...)'}</label>
+                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <input
+                      type="file"
+                      onChange={handleImageUpload}
+                      accept="image/*"
+                      style={{ flex: 1 }}
+                    />
+                    {form.image && (
+                      <div className="image-preview" style={{ height: '60px', width: '80px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border)' }}>
+                        <img
+                          src={form.image.startsWith('http') ? form.image : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${form.image}`}
+                          alt="Preview"
+                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
                 <div className="modal-field modal-full">
                   <label>Description</label>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, SlidersHorizontal, Star, Fuel, Users, Zap, ArrowRight } from 'lucide-react';
+import { Search, SlidersHorizontal, Star, Fuel, Users, Zap, ArrowRight, Plus, Minus } from 'lucide-react';
 import { useCars, formatINR } from '../context/CarContext';
 import './Browse.css';
 
@@ -15,6 +15,7 @@ export default function Browse() {
   const [transmission, setTransmission] = useState('All');
   const [sortBy, setSortBy] = useState('Recommended');
   const [showUnavailable, setShowUnavailable] = useState(false);
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const filtered = cars
     .filter(c => {
@@ -43,10 +44,16 @@ export default function Browse() {
 
       <div className="container browse-layout">
         {/* Sidebar */}
-        <aside className="sidebar card">
-          <h3 className="sidebar-title"><SlidersHorizontal size={18} /> Filters</h3>
+        <aside className={`sidebar card ${isMobileFilterOpen ? 'mobile-open' : ''}`}>
+          <h3 className="sidebar-title" onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}>
+            <span><SlidersHorizontal size={18} /> Filters</span>
+            <span className="mobile-only accordion-icon">
+              {isMobileFilterOpen ? <Minus size={18} /> : <Plus size={18} />}
+            </span>
+          </h3>
 
-          <div className="filter-group">
+          <div className="filter-content">
+            <div className="filter-group">
             <label>Car Type</label>
             <div className="category-pills">
               {CATEGORIES.map(cat => (
@@ -83,10 +90,11 @@ export default function Browse() {
             </label>
           </div>
 
-          <button className="btn-primary w-full"
-            onClick={() => { setActiveCategory('All'); setMaxPrice(15000); setTransmission('All'); }}>
-            Reset Filters
-          </button>
+            <button className="btn-primary w-full"
+              onClick={() => { setActiveCategory('All'); setMaxPrice(15000); setTransmission('All'); }}>
+              Reset Filters
+            </button>
+          </div>
         </aside>
 
         {/* Cars Grid */}

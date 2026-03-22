@@ -7,6 +7,8 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import carRoutes from './routes/carRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
+import path from 'path';
 
 dotenv.config();
 connectDB();
@@ -32,6 +34,10 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/cars', carRoutes);
 app.use('/api/bookings', bookingRoutes);
+app.use('/api/upload', uploadRoutes);
+
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 // Public settings
 app.get('/api/settings', (req, res) => {

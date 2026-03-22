@@ -13,8 +13,16 @@ export function CarProvider({ children }) {
     try {
       const res = await fetch(`${API_BASE}/cars`);
       const data = await res.json();
-      // Normalize _id to id and isAvailable to available for frontend compatibility
-      setCars(data.map(c => ({ ...c, id: c._id, available: c.isAvailable })));
+      
+      const serverBase = API_BASE.replace('/api', '');
+      
+      // Normalize _id to id, isAvailable to available, and fix image URLs
+      setCars(data.map(c => ({ 
+        ...c, 
+        id: c._id, 
+        available: c.isAvailable,
+        image: c.image && c.image.startsWith('/uploads') ? `${serverBase}${c.image}` : c.image
+      })));
     } catch (error) {
       console.error('Failed to fetch cars:', error);
     } finally {
