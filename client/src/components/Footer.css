@@ -16,9 +16,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 22px;
-  font-weight: 800;
+  font-family: var(--font-brand);
+  font-size: 20px;
+  font-weight: 700;
   margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .footer-desc {

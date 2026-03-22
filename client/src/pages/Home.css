@@ -40,20 +40,23 @@
 .hero-badge { margin-bottom: 20px; display: inline-block; }
 
 .hero-title {
-  font-size: clamp(42px, 5.5vw, 72px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -2px;
-  margin-bottom: 20px;
+  font-family: var(--font-brand);
+  font-size: clamp(38px, 5vw, 68px); /* Slightly smaller to accommodate width */
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: normal;
+  margin-bottom: 24px;
 }
 
 /* Removed redundant .gradient-text to use global definition */
 
 .hero-sub {
+  font-family: var(--font-main);
   font-size: 18px;
   color: var(--text-muted);
   margin-bottom: 36px;
-  max-width: 480px;
+  max-width: 540px;
+  line-height: 1.6;
 }
 
 /* Search Card */
@@ -108,8 +111,8 @@
 }
 
 .stat { display: flex; flex-direction: column; gap: 2px; }
-.stat-val { font-size: 22px; font-weight: 800; color: var(--white); }
-.stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.stat-val { font-family: var(--font-tech); font-size: 24px; font-weight: 700; color: var(--white); }
+.stat-label { font-family: var(--font-main); font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
 /* Hero Car Image */
 .hero-car-image {
@@ -215,8 +218,9 @@
 }
 .how-step:hover { transform: translateY(-6px); }
 .hs-number {
-  font-size: 42px;
-  font-weight: 900;
+  font-family: var(--font-brand);
+  font-size: 38px;
+  font-weight: 700;
   color: rgba(0,212,255,0.15);
   position: absolute;
   top: 16px;
@@ -235,12 +239,49 @@
 .how-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
 .how-step p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
+.car-specs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+  font-family: var(--font-tech);
+  font-size: 12px;
+  color: #d1d1d1;
+}
+.car-specs span { display: flex; align-items: center; gap: 5px; }
+
+.car-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.tag {
+  font-family: var(--font-tech);
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  background: rgba(0, 212, 255, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  text-transform: uppercase;
+}
+
+.car-card-footer { display: flex; justify-content: space-between; align-items: center; }
+.car-price {
+  font-family: var(--font-tech);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.car-price span { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
 .features-section,
 .featured-section { padding: 100px 0; }
 
 .features-section { background: rgba(255, 255, 255, 0.01); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
 
-.section-title { font-size: 38px; font-weight: 800; margin-bottom: 12px; letter-spacing: -1px; }
+.section-title { 
+  font-family: var(--font-brand);
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700; 
+  margin-bottom: 12px; 
+  letter-spacing: normal; 
+}
 .section-sub { color: #b0b0b0; font-size: 16px; margin-bottom: 50px; }
 .section-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; }
 .section-header .section-sub { margin-bottom: 0; }
@@ -367,9 +408,48 @@
 
   .hero-sub { margin-left: auto; margin-right: auto; }
   .hero-stats { justify-content: center; flex-wrap: wrap; gap: 20px; }
-  .search-card { flex-direction: column; padding: 16px; width: 100%; border-radius: var(--radius); }
-  .search-field { width: 100%; padding: 12px 10px; border-bottom: 1px solid var(--glass-border); }
-  .search-btn { width: 100%; margin-top: 10px; }
+  .search-card { 
+    flex-direction: column; 
+    padding: 20px; 
+    width: 100%; 
+    border-radius: var(--radius-lg); 
+    gap: 15px;
+  }
+  .search-field { 
+    width: 100%; 
+    padding: 0; 
+    border-bottom: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .field-info {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+  }
+  .search-field label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+  .search-field input {
+    height: 38px;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 15px !important;
+  }
+  .search-btn { 
+    width: 100%; 
+    margin-top: 5px; 
+    height: 52px;
+    justify-content: center;
+  }
   .search-divider { display: none; }
   
   .features-grid { grid-template-columns: 1fr; }

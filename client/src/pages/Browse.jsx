@@ -74,18 +74,21 @@ export default function Browse() {
             <label>Transmission</label>
             <div className="radio-group">
               {['All', 'Auto', 'Manual'].map(t => (
-                <label key={t} className="radio-opt">
+                <label key={t} className="form-check">
                   <input type="radio" name="trans" value={t} checked={transmission === t}
-                    onChange={() => setTransmission(t)} /><span>{t}</span>
+                    onChange={() => setTransmission(t)} />
+                  <span className="radio-custom"></span>
+                  <span>{t}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div className="filter-group">
-            <label className="radio-opt">
+            <label className="form-check">
               <input type="checkbox" checked={showUnavailable}
                 onChange={e => setShowUnavailable(e.target.checked)} />
+              <span className="checkbox-custom"></span>
               <span>Show unavailable</span>
             </label>
           </div>

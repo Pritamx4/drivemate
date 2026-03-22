@@ -81,10 +81,12 @@
 }
 .price-range-labels { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
 
-.radio-group { display: flex; flex-direction: column; gap: 10px; }
-.radio-opt { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--text-muted); }
-.radio-opt input[type="radio"] { accent-color: var(--primary); width: 16px; height: 16px; }
-.radio-opt:hover span { color: var(--white); }
+.radio-group { display: flex; flex-direction: column; gap: 14px; }
+
+/* Custom Form Multi-checks */
+.sidebar .form-check {
+  margin-bottom: 2px;
+}
 
 .w-full { width: 100%; justify-content: center; margin-top: 4px; }
 
@@ -193,24 +195,34 @@
   display: flex;
   gap: 16px;
   margin-bottom: 12px;
-  font-size: 13px;
+  font-family: var(--font-tech);
+  font-size: 11px;
   color: #d1d1d1;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .car-specs span { display: flex; align-items: center; gap: 5px; }
 
 .car-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
 .tag {
-  font-size: 11px;
+  font-family: var(--font-tech);
+  font-size: 10px;
   padding: 3px 10px;
   border-radius: 6px;
   background: rgba(0, 212, 255, 0.08);
   color: var(--primary);
   border: 1px solid rgba(0, 212, 255, 0.15);
+  text-transform: uppercase;
 }
 
 .car-card-footer { display: flex; justify-content: space-between; align-items: center; }
-.car-price { font-size: 22px; font-weight: 800; color: var(--primary); }
-.car-price span { font-size: 13px; color: var(--text-muted); font-weight: 400; }
+.car-price { 
+  font-family: var(--font-tech);
+  font-size: 20px; 
+  font-weight: 700; 
+  color: var(--primary); 
+}
+.car-price span { font-size: 11px; color: var(--text-muted); font-weight: 400; }
 
 .car-card.unavailable { opacity: 0.65; }
 .car-card button:disabled { opacity: 0.5; cursor: not-allowed; }

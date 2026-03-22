@@ -242,22 +242,22 @@ export default function AdminPanel() {
               <tbody>
                 {bookings.map(b => (
                   <tr key={b._id}>
-                    <td className="car-cell"><div className="car-cell-name">#{b._id.slice(-6).toUpperCase()}</div></td>
-                    <td>
+                    <td data-label="ID" className="car-cell"><div className="car-cell-name">#{b._id.slice(-6).toUpperCase()}</div></td>
+                    <td data-label="Customer">
                       <div>
                         <div className="car-cell-name">{b.fullName}</div>
                         <div className="car-cell-sub">{b.phone}</div>
                       </div>
                     </td>
-                    <td><div className="car-cell-name">{b.carName}</div></td>
-                    <td>
+                    <td data-label="Car"><div className="car-cell-name">{b.carName}</div></td>
+                    <td data-label="Dates">
                       <div>
                         <div className="car-cell-name">{b.pickupDate}</div>
                         <div className="car-cell-sub">{b.days} days</div>
                       </div>
                     </td>
-                    <td className="price-cell">{formatINR(b.totalCost)}</td>
-                    <td>
+                    <td data-label="Total" className="price-cell">{formatINR(b.totalCost)}</td>
+                    <td data-label="Status">
                       <select
                         className={`status-select ${b.status?.toLowerCase() || 'pending'}`}
                         value={b.status || 'Pending'}
@@ -292,27 +292,29 @@ export default function AdminPanel() {
               <tbody>
                 {filteredCars.map(car => (
                   <tr key={car.id} className={!car.isAvailable ? 'row-unavail' : ''}>
-                    <td className="car-cell">
+                    <td data-label="Car" className="car-cell">
                       <img src={car.image} alt={car.name} className="table-car-img" />
                       <div>
                         <div className="car-cell-name">{car.name}</div>
-                        <div className="car-cell-sub">{car.seats} seats · {car.fuel} · {car.transmission}</div>
+                        <div className="car-cell-sub">
+                          {[car.seats + ' seats', car.fuel, car.transmission].filter(Boolean).join(' · ')}
+                        </div>
                       </div>
                     </td>
-                    <td><span className="badge">{car.category}</span></td>
-                    <td className="price-cell">{formatINR(car.pricePerDay)}</td>
-                    <td>
+                    <td data-label="Category"><span className="badge">{car.category}</span></td>
+                    <td data-label="Price/Day" className="price-cell">{formatINR(car.pricePerDay)}</td>
+                    <td data-label="Rating">
                       <span className="rating-cell">
                         <Star size={13} fill="#f5a623" color="#f5a623" />
                         {car.rating > 0 ? car.rating : 'New'}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Status">
                       <span className={`status-badge ${car.isAvailable ? 'avail' : 'unavail'}`}>
                         {car.isAvailable ? '● Available' : '● Unavailable'}
                       </span>
                     </td>
-                    <td className="actions-cell">
+                    <td data-label="Actions" className="actions-cell">
                       <button
                         className={`icon-btn ${car.isAvailable ? 'hide-btn' : 'show-btn'}`}
                         title={car.isAvailable ? 'Mark Unavailable' : 'Mark Available'}
