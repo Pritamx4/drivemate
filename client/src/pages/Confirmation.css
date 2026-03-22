@@ -1,0 +1,189 @@
+.confirmation-page {
+  padding-top: 90px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-bottom: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Confetti */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  border-radius: 2px;
+  animation: confetti-fall linear forwards;
+}
+
+.conf-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.conf-card {
+  max-width: 680px;
+  width: 100%;
+  padding: 52px 48px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.conf-card.show { opacity: 1; transform: translateY(0); }
+
+/* Checkmark */
+.check-circle {
+  width: 96px;
+  height: 96px;
+  background: rgba(0, 212, 100, 0.12);
+  border: 2px solid rgba(0, 212, 100, 0.4);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: #00d464;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.conf-title { font-size: 38px; font-weight: 900; margin-bottom: 12px; }
+.conf-sub { color: var(--text-muted); font-size: 17px; margin-bottom: 28px; }
+
+/* Reference */
+.ref-badge {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(0, 212, 255, 0.08);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  border-radius: 14px;
+  padding: 14px 32px;
+  margin-bottom: 32px;
+  backdrop-filter: blur(8px);
+}
+.ref-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 4px; }
+.ref-code { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: 2px; }
+
+/* Summary */
+.conf-summary {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 24px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+.cs-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--card-border);
+}
+.cs-emoji { font-size: 48px; }
+.cs-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.cs-info span { font-size: 13px; color: var(--text-muted); }
+
+.cs-details { display: flex; flex-direction: column; gap: 10px; }
+.cs-detail-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+.cs-d-label { color: var(--text-muted); }
+.cs-d-val { font-weight: 600; }
+
+/* Timeline */
+.timeline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 36px;
+  padding: 24px;
+  background: rgba(17,34,64,0.5);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+}
+.timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.ts-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(245, 166, 35, 0.25);
+  background: rgba(17,34,64,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.timeline-step.active .ts-dot {
+  border-color: #00d464;
+  background: rgba(0,212,100,0.15);
+  color: #00d464;
+  animation: pulse-glow 2s infinite;
+}
+.ts-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  text-align: center;
+  position: absolute;
+  margin-top: 52px;
+}
+.timeline-step {
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+}
+.timeline-step .ts-label { position: static; margin-top: 8px; }
+.ts-line {
+  width: 50px;
+  height: 2px;
+  background: var(--card-border);
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 17px;
+}
+.timeline-step:first-child ~ .timeline-step { flex-direction: row; gap: 0; }
+
+/* Rewrite timeline cleanly */
+.timeline { flex-direction: row; align-items: flex-start; }
+.timeline-step { flex-direction: column !important; align-items: center; gap: 8px; padding: 0; }
+.ts-line { align-self: flex-start; margin-top: 17px; flex-shrink: 0; }
+
+/* Actions */
+.conf-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.back-home-link {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+.back-home-link:hover { color: var(--primary); }
