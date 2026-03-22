@@ -13,7 +13,19 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('CORS not allowed'));
+  }
+}));
 app.use(express.json());
 
 // API Routes
@@ -24,6 +36,10 @@ app.use('/api/bookings', bookingRoutes);
 // Public settings
 app.get('/api/settings', (req, res) => {
   res.json({ whatsapp: process.env.OWNER_WHATSAPP });
+});
+
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
 // Basic Health Check

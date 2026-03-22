@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: drivemate-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: OWNER_WHATSAPP
+        sync: false
+      - key: CORS_ORIGIN
+        value: https://drivemate-web.onrender.com
+
+  - type: web
+    name: drivemate-web
+    runtime: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 20.19.0
+      - key: VITE_API_URL
+        value: https://drivemate-api.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
