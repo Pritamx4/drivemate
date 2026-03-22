@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: drivemate-api
+    name: drivemate-ihmd
     runtime: node
     rootDir: server
     buildCommand: npm install
@@ -17,8 +17,6 @@ services:
         sync: false
       - key: OWNER_WHATSAPP
         sync: false
-      - key: CORS_ORIGIN
-        value: https://drivemate-web.onrender.com
 
   - type: web
     name: drivemate-web
@@ -30,7 +28,7 @@ services:
       - key: NODE_VERSION
         value: 20.19.0
       - key: VITE_API_URL
-        value: https://drivemate-api.onrender.com/api
+        value: https://drivemate-ihmd.onrender.com/api
     routes:
       - type: rewrite
         source: /*
