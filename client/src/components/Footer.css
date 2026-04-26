@@ -149,12 +149,6 @@
   font-size: 13px;
 }
 
-.hidden-admin-link {
-  color: inherit;
-  text-decoration: none;
-  cursor: text; /* Makes it look like normal text, not a link */
-}
-
 .footer-bottom-links {
   display: flex;
   gap: 16px;

@@ -115,7 +115,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} DriveMate Car Rental Service. All rights reserved<Link to="/admin-login" className="hidden-admin-link">.</Link></p>
+          <p>© {new Date().getFullYear()} DriveMate Car Rental Service. All rights reserved.</p>
           <div className="footer-bottom-links">
             <Link to="/">Privacy Policy</Link>
             <span>·</span>
