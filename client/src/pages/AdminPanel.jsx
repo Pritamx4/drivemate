@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, Plus, Trash2, Eye, EyeOff, LogOut, LayoutDashboard, Star, ShieldCheck, CheckCircle, XCircle, UploadCloud, Sparkles, ImagePlus } from 'lucide-react';
+import { Car, Plus, Trash2, Eye, EyeOff, LogOut, LayoutDashboard, Star, ShieldCheck, CheckCircle, XCircle, Camera } from 'lucide-react';
 import { useCars, formatINR } from '../context/CarContext';
 import { adminLogout } from '../components/PrivateRoute';
 import './AdminPanel.css';
@@ -424,47 +424,28 @@ export default function AdminPanel() {
                 </div>
                 <div className="modal-field modal-full">
                   <label>Car Image {uploading && '(Uploading...)'}</label>
-                  <div className="image-upload-panel">
-                    <div className="image-preview-shell">
-                      <div className="image-preview-frame">
-                        {form.image ? (
-                          <img
-                            src={getImageUrl(form.image)}
-                            alt="Car preview"
-                            className="image-preview-img"
-                          />
-                        ) : (
-                          <div className="image-preview-empty">
-                            <ImagePlus size={28} />
-                            <span>No image selected</span>
-                          </div>
-                        )}
-                      </div>
-                      <div className="image-preview-meta">
-                        <div className="image-preview-title">
-                          <Sparkles size={14} /> Premium cover preview
-                        </div>
-                        <p>Upload a clean front or three-quarter shot for the best listing presentation.</p>
-                      </div>
-                    </div>
-
-                    <label className={`upload-dropzone ${uploading ? 'uploading' : ''}`}>
-                      <input
-                        type="file"
-                        onChange={handleImageUpload}
-                        accept="image/*"
-                        className="upload-input"
+                  <label htmlFor="car-image-upload" className="upload-dropbox">
+                    <input
+                      id="car-image-upload"
+                      type="file"
+                      onChange={handleImageUpload}
+                      accept="image/*"
+                      className="upload-dropbox-input"
+                    />
+                    <Camera size={22} />
+                    <span>{uploading ? 'Uploading image...' : 'Choose image'}</span>
+                    <small>PNG, JPG or WebP</small>
+                  </label>
+                  {form.image && (
+                    <div className="image-preview-thumb">
+                      <img
+                        src={getImageUrl(form.image)}
+                        alt="Car preview"
+                        className="image-preview-img"
                       />
-                      <div className="upload-dropzone-icon">
-                        <UploadCloud size={22} />
-                      </div>
-                      <div className="upload-dropzone-copy">
-                        <strong>{uploading ? 'Uploading image...' : 'Choose an image'}</strong>
-                        <span>{uploading ? 'Please wait while the preview updates.' : 'PNG, JPG or WebP. Click to browse files.'}</span>
-                      </div>
-                      <span className="upload-dropzone-cta">Browse</span>
-                    </label>
-                  </div>
+                      <div className="image-preview-badge">Preview</div>
+                    </div>
+                  )}
                 </div>
                 <div className="modal-field modal-full">
                   <label>Description</label>
