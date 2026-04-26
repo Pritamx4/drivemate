@@ -20,9 +20,27 @@ const allowedOrigins = (process.env.CORS_ORIGIN || '')
   .map(origin => origin.trim())
   .filter(Boolean);
 
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+
+  if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+    return true;
+  }
+
+  try {
+    const hostname = new URL(origin).hostname;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') return true;
+    if (hostname.endsWith('.vercel.app')) return true;
+  } catch {
+    return false;
+  }
+
+  return false;
+};
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+    if (isAllowedOrigin(origin)) {
       return callback(null, true);
     }
     return callback(new Error('CORS not allowed'));

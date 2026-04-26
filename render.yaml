@@ -17,6 +17,8 @@ services:
         sync: false
       - key: OWNER_WHATSAPP
         sync: false
+      - key: CORS_ORIGIN
+        value: http://localhost:5173,https://drivemate-jet.vercel.app
 
   - type: web
     name: drivemate-web
