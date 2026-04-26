@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Car, Plus, Trash2, Eye, EyeOff, LogOut, LayoutDashboard, Star, ShieldCheck, CheckCircle, XCircle } from 'lucide-react';
+import { Car, Plus, Trash2, Eye, EyeOff, LogOut, LayoutDashboard, Star, ShieldCheck, CheckCircle, XCircle, UploadCloud, Sparkles, ImagePlus } from 'lucide-react';
 import { useCars, formatINR } from '../context/CarContext';
 import { adminLogout } from '../components/PrivateRoute';
 import './AdminPanel.css';
@@ -15,6 +15,13 @@ const EMPTY_FORM = {
   desc: '', tags: '', mileageLimit: '300 km/day', minAge: 21,
 };
 
+const getImageUrl = (image) => {
+  if (!image) return '';
+  if (image.startsWith('http')) return image;
+  const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000';
+  return `${baseUrl}${image}`;
+};
+
 export default function AdminPanel() {
   const { cars, loading, addCar, removeCar, toggleAvailability } = useCars();
   const navigate = useNavigate();
@@ -23,6 +30,7 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState('all'); // all, available, unavailable, bookings
   const [bookings, setBookings] = useState([]);
   const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [adminError, setAdminError] = useState('');
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [successMsg, setSuccessMsg] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -34,6 +42,7 @@ export default function AdminPanel() {
 
   const fetchBookings = async () => {
     setBookingsLoading(true);
+    setAdminError('');
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/bookings`, {
         headers: {
@@ -41,9 +50,16 @@ export default function AdminPanel() {
         }
       });
       const data = await res.json();
-      if (res.ok) setBookings(data);
+      if (res.ok) {
+        setBookings(data);
+      } else {
+        setBookings([]);
+        setAdminError(data.message || 'Failed to load bookings');
+      }
     } catch (err) {
       console.error('Failed to fetch bookings:', err);
+      setBookings([]);
+      setAdminError('Failed to load bookings');
     } finally {
       setBookingsLoading(false);
     }
@@ -51,6 +67,8 @@ export default function AdminPanel() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+
     const formData = new FormData();
     formData.append('image', file);
     setUploading(true);
@@ -92,9 +110,14 @@ export default function AdminPanel() {
       if (res.ok) {
         setBookings(bookings.map(b => b._id === id ? { ...b, status: newStatus } : b));
         showSuccess(`✅ Booking marked as ${newStatus}`);
+        setAdminError('');
+      } else {
+        const data = await res.json();
+        setAdminError(data.message || 'Failed to update booking status');
       }
     } catch (err) {
       console.error('Failed to update status', err);
+      setAdminError('Failed to update booking status');
     }
   };
 
@@ -181,6 +204,7 @@ export default function AdminPanel() {
         </div>
 
         {successMsg && <div className="admin-success">{successMsg}</div>}
+        {adminError && <div className="admin-error">{adminError}</div>}
 
         {/* Stats */}
         <div className="admin-stats" style={{ gridTemplateColumns: activeTab === 'bookings' ? 'repeat(4, 1fr)' : 'repeat(3, 1fr)' }}>
@@ -273,7 +297,7 @@ export default function AdminPanel() {
                 ))}
               </tbody>
             </table>
-            {bookings.length === 0 && !bookingsLoading && <div className="table-empty">No booking requests found.</div>}
+            {bookings.length === 0 && !bookingsLoading && !adminError && <div className="table-empty">No booking requests found.</div>}
             {bookingsLoading && <div className="table-empty">Loading bookings...</div>}
           </div>
         ) : (
@@ -318,7 +342,15 @@ export default function AdminPanel() {
                       <button
                         className={`icon-btn ${car.isAvailable ? 'hide-btn' : 'show-btn'}`}
                         title={car.isAvailable ? 'Mark Unavailable' : 'Mark Available'}
-                        onClick={() => { toggleAvailability(car.id); showSuccess(`${car.name} marked as ${car.isAvailable ? 'unavailable' : 'available'}.`); }}
+                        onClick={async () => {
+                          const updated = await toggleAvailability(car.id);
+                          if (updated) {
+                            showSuccess(`${car.name} marked as ${car.isAvailable ? 'unavailable' : 'available'}.`);
+                            setAdminError('');
+                          } else {
+                            setAdminError('Failed to update car availability');
+                          }
+                        }}
                       >
                         {car.isAvailable ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
@@ -392,22 +424,46 @@ export default function AdminPanel() {
                 </div>
                 <div className="modal-field modal-full">
                   <label>Car Image {uploading && '(Uploading...)'}</label>
-                  <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                    <input
-                      type="file"
-                      onChange={handleImageUpload}
-                      accept="image/*"
-                      style={{ flex: 1 }}
-                    />
-                    {form.image && (
-                      <div className="image-preview" style={{ height: '60px', width: '80px', borderRadius: '4px', overflow: 'hidden', border: '1px solid var(--border)' }}>
-                        <img
-                          src={form.image.startsWith('http') ? form.image : `${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${form.image}`}
-                          alt="Preview"
-                          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                        />
+                  <div className="image-upload-panel">
+                    <div className="image-preview-shell">
+                      <div className="image-preview-frame">
+                        {form.image ? (
+                          <img
+                            src={getImageUrl(form.image)}
+                            alt="Car preview"
+                            className="image-preview-img"
+                          />
+                        ) : (
+                          <div className="image-preview-empty">
+                            <ImagePlus size={28} />
+                            <span>No image selected</span>
+                          </div>
+                        )}
                       </div>
-                    )}
+                      <div className="image-preview-meta">
+                        <div className="image-preview-title">
+                          <Sparkles size={14} /> Premium cover preview
+                        </div>
+                        <p>Upload a clean front or three-quarter shot for the best listing presentation.</p>
+                      </div>
+                    </div>
+
+                    <label className={`upload-dropzone ${uploading ? 'uploading' : ''}`}>
+                      <input
+                        type="file"
+                        onChange={handleImageUpload}
+                        accept="image/*"
+                        className="upload-input"
+                      />
+                      <div className="upload-dropzone-icon">
+                        <UploadCloud size={22} />
+                      </div>
+                      <div className="upload-dropzone-copy">
+                        <strong>{uploading ? 'Uploading image...' : 'Choose an image'}</strong>
+                        <span>{uploading ? 'Please wait while the preview updates.' : 'PNG, JPG or WebP. Click to browse files.'}</span>
+                      </div>
+                      <span className="upload-dropzone-cta">Browse</span>
+                    </label>
                   </div>
                 </div>
                 <div className="modal-field modal-full">

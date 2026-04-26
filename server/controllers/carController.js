@@ -29,7 +29,19 @@ export const updateCar = async (req, res) => {
   try {
     const car = await Car.findById(req.params.id);
     if (car) {
-      Object.assign(car, req.body);
+      const updates = { ...req.body };
+
+      if (Object.prototype.hasOwnProperty.call(updates, 'available') && !Object.prototype.hasOwnProperty.call(updates, 'isAvailable')) {
+        updates.isAvailable = updates.available;
+      }
+
+      if (Object.prototype.hasOwnProperty.call(updates, 'isAvailable') && typeof updates.isAvailable === 'string') {
+        updates.isAvailable = updates.isAvailable === 'true';
+      }
+
+      delete updates.available;
+
+      Object.assign(car, updates);
       const updatedCar = await car.save();
       res.json(updatedCar);
     } else {

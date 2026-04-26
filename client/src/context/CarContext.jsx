@@ -71,15 +71,21 @@ export function CarProvider({ children }) {
         headers: getAuthHeaders(),
         body: JSON.stringify(updates)
       });
-      if (res.ok) fetchCars();
+      if (res.ok) {
+        await fetchCars();
+        return true;
+      }
+      return false;
     } catch (error) {
       console.error('Failed to update car:', error);
+      return false;
     }
   };
 
-  const toggleAvailability = (id) => {
+  const toggleAvailability = async (id) => {
     const car = cars.find(c => c.id === id);
-    if (car) updateCar(id, { isAvailable: !car.isAvailable });
+    if (!car) return false;
+    return updateCar(id, { isAvailable: !car.isAvailable });
   };
 
   return (

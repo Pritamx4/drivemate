@@ -23,7 +23,7 @@ export const createBooking = async (req, res) => {
 export const getBookings = async (req, res) => {
   try {
     const bookings = await Booking.find({}).sort('-createdAt');
-    res.json(bookings);
+    res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -34,6 +34,12 @@ export const getBookings = async (req, res) => {
 export const updateBookingStatus = async (req, res) => {
   try {
     const { status } = req.body;
+    const allowedStatuses = ['Pending', 'Confirmed', 'Completed', 'Cancelled'];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({ message: 'Invalid booking status' });
+    }
+
     const booking = await Booking.findByIdAndUpdate(req.params.id, { status }, { new: true });
     if (!booking) return res.status(404).json({ message: 'Booking not found' });
     res.json(booking);

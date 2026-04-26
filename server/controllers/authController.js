@@ -27,9 +27,10 @@ export const loginAdmin = async (req, res) => {
 // @route   POST /api/auth/seed
 export const seedAdmin = async (req, res) => {
   const { username, password, secret } = req.body;
+  const seedSecret = process.env.ADMIN_SEED_SECRET;
   
   // Basic guard for seeding
-  if (secret !== 'drivemate_setup_2026') return res.status(403).json({ message: 'Forbidden' });
+  if (!seedSecret || secret !== seedSecret) return res.status(403).json({ message: 'Forbidden' });
 
   const adminExists = await Admin.findOne({ username });
   if (adminExists) return res.status(400).json({ message: 'Admin already exists' });

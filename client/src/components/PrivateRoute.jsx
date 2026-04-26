@@ -1,3 +1,5 @@
+import { Navigate } from 'react-router-dom';
+
 export const TOKEN_KEY = 'dm_admin_token';
 
 /**
