@@ -100,7 +100,7 @@ export default function Footer() {
             <div className="footer-section-content">
               <div className="contact-item">
                 <Phone size={16} />
-                <span>Call / WhatsApp Us</span>
+                <span>+91 9138426686</span>
               </div>
               <div className="contact-item">
                 <Mail size={16} />
