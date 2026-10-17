@@ -4,7 +4,7 @@ import { Search, SlidersHorizontal, Star, Fuel, Users, Zap, ArrowRight, Plus, Mi
 import { useCars, formatINR } from '../context/CarContext';
 import './Browse.css';
 
-const CATEGORIES = ['All', 'SUV', 'Hatchback'];
+const CATEGORIES = ['All', 'SUV', 'Hatchback', 'Sedan'];
 
 export default function Browse() {
   const navigate = useNavigate();
@@ -66,9 +66,9 @@ export default function Browse() {
 
           <div className="filter-group">
             <label>Max Rent: <span className="price-val">{formatINR(maxPrice)}/day</span></label>
-            <input type="range" min={2000} max={15000} step={500} value={maxPrice}
+            <input type="range" min={1000} max={15000} step={500} value={maxPrice}
               onChange={e => setMaxPrice(+e.target.value)} className="price-slider" />
-            <div className="price-range-labels"><span>₹2,000</span><span>₹15,000</span></div>
+            <div className="price-range-labels"><span>₹1,000</span><span>₹15,000</span></div>
           </div>
 
           <div className="filter-group">

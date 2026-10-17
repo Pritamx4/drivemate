@@ -16,11 +16,19 @@ export function CarProvider({ children }) {
       
       const serverBase = API_BASE.replace('/api', '');
       
-      // Normalize _id to id, isAvailable to available, and fix image URLs
+      // Normalize _id to id, isAvailable to available, and fix image URLs and metadata
       setCars(data.map(c => ({ 
         ...c, 
         id: c._id, 
         available: c.isAvailable,
+        fuel: c.fuel || c.fuelType || 'Petrol',
+        fuelType: c.fuelType || c.fuel || 'Petrol',
+        desc: c.description || c.desc || c.tagline || '',
+        description: c.description || c.desc || c.tagline || '',
+        minAge: c.minAge || 21,
+        mileageLimit: c.mileageLimit || 'Unlimited KMs',
+        reviews: c.reviews || 25,
+        rating: c.rating || 4.8,
         image: c.image && c.image.startsWith('/uploads') ? `${serverBase}${c.image}` : c.image
       })));
     } catch (error) {
